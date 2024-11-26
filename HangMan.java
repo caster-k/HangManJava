@@ -2,7 +2,7 @@
 import java.util.Scanner;
 import java.util.Arrays;
 public class HangMan {
-    private String word = "saksham";
+    private String word = "";
     
     private int count = 0;
     void title(){
@@ -10,6 +10,9 @@ public class HangMan {
     }
 
     String getterMethod(){
+        System.out.println("Enter the word that you want other to guess: ");
+		Scanner sc = new Scanner(System.in);
+		word = sc.nextLine();
         return word;
     }
 
