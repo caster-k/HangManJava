@@ -43,7 +43,7 @@ public class HangMan {
 				
 				if(words == word.charAt(j)){
 					usrInput[j] = word.charAt(j);
-					usrInputSize++;	
+					usrInputSize++;	// there is one problem ! if the word is "saksham" and I enter the same correct alphabet 'a' many time, this will give an error.
 					flag = false;			
 				}
 				System.out.print(usrInput[j]+" ");
