@@ -1,8 +1,8 @@
-// package HangMan;
 import java.util.Scanner;
 import java.util.Arrays;
-public class HangMan {
-    private String word = "";
+class HangMan {
+    private String word="";
+	private String uniqueCharacter="";
     
     private int count = 0;
     void title(){
@@ -10,9 +10,10 @@ public class HangMan {
     }
 
     String getterMethod(){
-        System.out.println("Enter the word that you want other to guess: ");
+		System.out.println("Enter the word that you want other to guess: ");
 		Scanner sc = new Scanner(System.in);
 		word = sc.nextLine();
+		// sc.close();//closes the scanner but does not close the scanner object??
         return word;
     }
 
@@ -23,32 +24,51 @@ public class HangMan {
     void userInput(HangMan hm){
         this.word=this.word.toLowerCase();
         int size = this.word.length();
-        char words;
+        
 		char[] usrInput = new char[size];
-		Arrays.fill(usrInput, '_');
-		int defaultSize = usrInput.length;
+		Arrays.fill(usrInput, '_');//fills the array with '_'
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter a character and the total size is : "+ size);
-        for(int i = 0; i<size; i++){
-            System.out.print("_ ");
+        for(int i = 0; i<size; i++){//prints '_' up to the size of the word we have to guess
+            System.out.print(usrInput[i]+" ");
         }
         System.out.println();
         System.out.println();
-		int usrInputSize = 0;
-        while(count<7 && (usrInputSize)<(size)){
-			boolean flag = true;
+		
+		hangMan(hm, usrInput, size, sc);
+	}
+
+	void hangMan(HangMan hm, char[] usrInput, int size, Scanner sc){
+		char words='\0';
+		int usrInputSize = 0;//
+
+        while((count<7) && (usrInputSize)<(size)){
+			boolean hangManImageFlag = true;
+			boolean uniqueCharacterFlag = true;
 			words=sc.next().charAt(0);
 			words=Character.toLowerCase(words);
+			for(int index = 0; index<uniqueCharacter.length(); index++){ // checks if the user has entered a unique character or not
+				
+				if(words == uniqueCharacter.charAt(index)){
+					uniqueCharacterFlag = false; //if the user has entered a repeated character, the flag turns off!
+					break;
+				}
+			}
             for(int j = 0; j < word.length(); j++){
 				
-				if(words == word.charAt(j)){
+				if((words == word.charAt(j))){
 					usrInput[j] = word.charAt(j);
-					usrInputSize++;	// there is one problem ! if the word is "saksham" and I enter the same correct alphabet 'a' many time, this will give an error.
-					flag = false;			
+					uniqueCharacter += words;
+
+					if(uniqueCharacterFlag){ //if the user has entered a unique character, then only the userInputSize will be incremented
+						usrInputSize++;
+					}
+					hangManImageFlag = false;		//reset the flag to false
 				}
 				System.out.print(usrInput[j]+" ");
 			}
-			if(flag){
+
+			if(hangManImageFlag){
 				count++;
 				System.out.println();
 				System.out.println();
@@ -58,6 +78,9 @@ public class HangMan {
             System.out.println();
         }
         sc.close();
+		if (usrInputSize == size){
+			System.out.println("You have guessed the word correctly!");
+		}
     }
 
 
